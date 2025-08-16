@@ -1,33 +1,38 @@
 package org.example.springtest.service;
 
+import org.example.springtest.model.entity.User;
+import org.example.springtest.repository.UserRepository;
+import org.example.springtest.service.impl.UserServiceImpl;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.*;
+import java.util.Optional;
 
-@Slf4j
-// when we use order this is mandatory
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
-    @BeforeEach
-    void runBeforeEach(){
-        log.info("Run before each");
-    }
-    @AfterEach
-    void tearDown() {
-        log.info("Run after each test");
-    }
+    @Mock
+    UserRepository userRepository;
+
+    @InjectMocks
+    UserServiceImpl userService;
+
     @Test
-    @Order(2)
-    void myTest(){
-            log.info("Running my test 1");
-    }
-    @Test
-    @Order(1)
-    void myTest2(){
-        log.info("Running my test 2");
-    }
-    @AfterAll
-    static void done() {
-        log.info("@AfterAll - executed after all test methods.");
+    void returnsNameFromRepo() {
+        // Arrange
+        when(userRepository.findById(1L)).thenReturn(Optional.of(new User(1L, "Alice")));
+
+        // Act
+        User userById = userService.getUserById(1L);
+
+        // Assert
+        assertEquals("Alice", userById.getName());
+        verify(userRepository).findById(1L); // ensures repo was called once
     }
 }
