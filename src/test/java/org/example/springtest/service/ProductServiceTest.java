@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,5 +35,13 @@ public class ProductServiceTest {
         // Assert
         assertEquals("Alice", userById.getName());
         verify(userRepository).findById(1L); // ensures repo was called once
+    }
+    @Test
+    void testNotFoundThrow(){
+
+        when(userRepository.findById(1L)).thenThrow(new RuntimeException("Not found"));
+        assertThrows(RuntimeException.class,()->{
+            userRepository.findById(1L);
+        });
     }
 }

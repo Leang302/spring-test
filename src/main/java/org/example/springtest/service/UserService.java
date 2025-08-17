@@ -4,4 +4,6 @@ import org.example.springtest.model.entity.User;
 
 public interface UserService {
     User getUserById(Long id);
+
+    User createUser(String userRequest);
 }
