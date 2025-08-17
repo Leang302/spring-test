@@ -6,6 +6,7 @@ import org.example.springtest.model.dto.request.ProductRequest;
 import org.example.springtest.model.entity.Product;
 import org.example.springtest.service.ProductService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -39,7 +40,6 @@ public class ProductControllerTest {
                 .andExpect(content().contentTypeCompatibleWith("application/json"))
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("leang"));
-        ;
 
     }
 }
